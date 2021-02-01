@@ -2,12 +2,22 @@
 
 {% block content %}
 
-<section>
-    <div class="row">
-        <div class="col-12">
-            <h1 data-bind="i18n: 'home_pitch'"></h1>
+<section class="landing">
+
+    <h1><strong data-bind="i18n: 'home_pitch'"></strong></h1>
+    <form>
+        <div class="form-row align-items-center">
+            <div class="col-sm-3 my-1">
+                <label class="sr-only" for="inlineFormInputName">Email</label>
+                <input type="email" class="form-control" id="inlineFormInputName" placeholder="Email">
+            </div>
+         
+            <div class="col-auto my-1">
+                <button type="submit" class="btn btn-primary">I want in!</button>
+            </div>
         </div>
-    </div>
+    </form>
+
 </section>
 
 {% endblock %}

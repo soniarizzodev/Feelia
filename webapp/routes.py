@@ -40,6 +40,19 @@ def home():
         year=datetime.now().year,
     )
 
+@app.route('/event')
+def event():
+    """Renders the event page."""
+
+    if not current_user.is_authenticated:
+        return redirect(url_for('login_page'))
+
+    return render_template(
+        'event.html',
+        title='Feelia - Together for your special moments',
+        year=datetime.now().year,
+    )
+
 @app.route('/contact')
 def contact():
     """Renders the contact page."""
