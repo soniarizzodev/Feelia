@@ -127,3 +127,16 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# VS
+.vs
+bin
+obj/Debug
+*.pyproj
+*.pyproj.user
+*.sln
+
+
+# Remote Anniversary
+/webapp/static/book_contents
+/webapp/database.db

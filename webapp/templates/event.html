@@ -1,0 +1,215 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<!-- Spinner -->
+<div class="spinner" role="status" data-bind="visible:Processing">
+    <div class="spinner-border text-info" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-caption">Operazione in corso</div>
+</div>
+<section data-bind="with:Book, visible:!IsEditMode()">
+    <section class="row">
+        <div class="col-12 add-button">
+            <button class="btn btn-primary" data-bind="click:$root.addEntry.bind($root)">Scrivi</button>
+        </div>
+    </section>
+    <section class="row">
+        <div class="col-12 entries-container" data-bind="foreach:BookEntries.slice(0).reverse()">
+            <div class="book-entry">
+                <div class="guest">
+                    <span data-bind="text:Author"></span>
+                    <button class="btn icon-button edit-button" data-bind="click:startEditProcess"><i class="icofont-ui-edit"></i></button>
+                </div>
+                <div class="content">
+                    <div class="message" data-bind="text:Message"></div>
+                    <div class="media" data-bind="with:SavedVideo, visible:SavedVideo">
+                        <video controls>
+                            <source data-bind="attr:{src:'/static/book_contents/' + $data}">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="media" data-bind="with:SavedImage, visible:SavedImage">
+                        <img data-bind="attr:{src:'/static/book_contents/' + $data}" />
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+</section>
+
+
+<section class="row" data-bind="visible:IsEditMode">
+    <div class="col-12 edit-container">
+        <form data-bind="with:CurrentEntry">
+            <div class="row edit">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="author">Autore</label>
+                        <input type="text" class="form-control" id="author" aria-describedby="author" data-bind="value:Author">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Messaggio</label>
+                        <textarea class="form-control" id="message" rows="10" data-bind="value:Message"></textarea>
+                    </div>
+
+                    <h5>Contenuti multimediali</h5>
+                    <div class="media row" data-bind="with:SavedVideo, visible:SavedVideo">
+                        <div class="col-10">
+                            <video controls>
+                                <source data-bind="attr:{src:'/static/book_contents/' + $data}">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="col-2 no-padding">
+                            <button class="btn icon-button delete-button" data-bind="click:$parent.DeleteVideo.bind($parent)"><i class="icofont-ui-delete"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="custom-file" data-bind="visible:SavedVideo() == null">
+                        <input type="file" class="custom-file-input" id="videoUpload" lang="it" accept="video/*" capture="capture" data-bind="event:{ change: function() { NewVideo($element.files[0]) } }">
+                        <label class="custom-file-label" for="videoUpload" data-browse="Scelgi">Carica video</label>
+                    </div>
+
+                    <div class="media row" data-bind="with:SavedImage, visible:SavedImage">
+                        <div class="col-10">
+                            <img data-bind="attr:{src:'/static/book_contents/' + $data}" />
+                        </div>
+                        <div class="col-2 no-padding">
+                            <button class="btn icon-button delete-button" data-bind="click:$parent.DeleteImage.bind($parent)"><i class="icofont-ui-delete"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="custom-file"  data-bind="visible:SavedImage() == null">
+                        <input type="file" class="custom-file-input" id="imageUpload" lang="it" accept="image/*" capture="capture" data-bind="event:{ change: function() { NewImage($element.files[0]) } }">
+                        <label class="custom-file-label" for="imageUpload" data-browse="Scelgi">Carica foto</label>
+                    </div>
+                </div>
+            </div>
+            <div class="add-button">
+                <button class="btn btn-primary" data-bind="click:checkUpdateBookEntry">Salva</button>
+                <button class="btn btn-primary" data-bind="click:startDeleteProcess">Elimina</button>
+            </div>
+        </form>
+    </div>
+</section>
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" data-bind="with:CurrentEntry">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Conferma inserendo il codice di modifica</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="edit_key_edit">Codice di modifica</label>
+                            <input class="form-control" id="edit_key_edit" data-bind="value:EditKey">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                <button type="button" class="btn btn-primary" data-bind="click:confirmUpdateBookEntry">Conferma</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" data-bind="with:CurrentEntry">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sei sicuro di voler eliminare questo messaggio?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <p>Conferma inserendo il codice di modifica</p>                       
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="edit_key_del">Codice di modifica</label>
+                            <input class="form-control" id="edit_key_del" data-bind="value:EditKey">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                <button type="button" class="btn btn-primary" data-bind="click:deleteBookEntry">Conferma</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="keyModal" tabindex="-1" role="dialog" aria-labelledby="keyModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" data-bind="with:CurrentEntry">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Codice di modifica</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        Conserva questo codice se vuoi avere la possibilit&agrave; di modificare o eliminare il tuo messaggio in seguito senza dover contattare Sonia :)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="key">
+                            <p class="key" data-bind="text:EditKey"></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bind="click:$root.navToHome">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="outcomeModal" tabindex="-1" role="dialog" aria-labelledby="outcomeModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" data-bind="with:Outcome">
+        <div class="modal-content">            
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="outcome-message" data-bind="text:Message"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bind="click:Action()">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+{{super()}}
+
+<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+
+<script type="text/javascript">
+    app.getBook();
+</script>
+{% endblock %}
