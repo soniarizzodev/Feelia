@@ -3,20 +3,24 @@
 {% block content %}
 
 <section class="landing">
+    <div class="pitch">
+        <h1 data-bind="i18n: 'home_pitch'"></h1>
+        <h5 data-bind="i18n: 'home_sub_pitch'"></h5>
+        <form>
+            <div class="form-row align-items-center justify-content-center">
+                <div class="col-sm-4 my-1">
+                    <label class="sr-only" for="inlineFormInputName">Email</label>
+                    <input type="email" class="form-control" id="inlineFormInputName" placeholder="Email">
+                </div>
 
-    <h1><strong data-bind="i18n: 'home_pitch'"></strong></h1>
-    <form>
-        <div class="form-row align-items-center">
-            <div class="col-sm-3 my-1">
-                <label class="sr-only" for="inlineFormInputName">Email</label>
-                <input type="email" class="form-control" id="inlineFormInputName" placeholder="Email">
+                <div class="col-auto my-1">
+                    <button type="submit" class="btn btn-primary">I want in!</button>
+                </div>
             </div>
-         
-            <div class="col-auto my-1">
-                <button type="submit" class="btn btn-primary">I want in!</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
+
+    <img src="../static/images/illustration.png"/>
 
 </section>
 
