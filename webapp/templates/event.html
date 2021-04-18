@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "layout-event.html" %}
 
 {% block content %}
 <!-- Spinner -->
@@ -8,10 +8,10 @@
     </div>
     <div class="spinner-caption">Operazione in corso</div>
 </div>
-<section data-bind="with:Book, visible:!IsEditMode()">
+<section data-bind="with:Book, visible:!IsEditMode()" class="container">   
     <section class="row">
         <div class="col-12 add-button">
-            <button class="btn btn-primary" data-bind="click:$root.addEntry.bind($root)">Scrivi</button>
+            <button class="btn btn-primary" data-bind="click:$root.addEntry.bind($root)">Write</button>
         </div>
     </section>
     <section class="row">
