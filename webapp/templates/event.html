@@ -11,31 +11,32 @@
 <section data-bind="with:Book, visible:!IsEditMode()" class="container">   
     <section class="row">
         <div class="col-12 add-button">
-            <button class="btn btn-primary" data-bind="click:$root.addEntry.bind($root)">Write</button>
+            <button class="btn btn-primary" data-bind="click:$root.addEntry.bind($root)"><i class="icofont-ui-edit"></i></button>
         </div>
     </section>
     <section class="row">
-        <div class="col-12 entries-container" data-bind="foreach:BookEntries.slice(0).reverse()">
-            <div class="book-entry">
-                <div class="guest">
-                    <span data-bind="text:Author"></span>
-                    <button class="btn icon-button edit-button" data-bind="click:startEditProcess"><i class="icofont-ui-edit"></i></button>
-                </div>
-                <div class="content">
-                    <div class="message" data-bind="text:Message"></div>
-                    <div class="media" data-bind="with:SavedVideo, visible:SavedVideo">
-                        <video controls>
-                            <source data-bind="attr:{src:'/static/book_contents/' + $data}">
-                            Your browser does not support the video tag.
-                        </video>
+        <div class="col-12">
+            <div class="entries-container" data-bind="foreach:BookEntries.slice(0).reverse()">
+                <div class="book-entry">
+                    <div class="guest">
+                        <span data-bind="text:Author"></span>
+                        <button class="btn icon-button edit-button" data-bind="click:startEditProcess"><i class="icofont-ui-edit"></i></button>
                     </div>
-                    <div class="media" data-bind="with:SavedImage, visible:SavedImage">
-                        <img data-bind="attr:{src:'/static/book_contents/' + $data}" />
+                    <div class="content">
+                        <div class="message" data-bind="text:Message"></div>
+                        <div class="media" data-bind="with:SavedVideo, visible:SavedVideo">
+                            <video controls>
+                                <source data-bind="attr:{src:'/static/book_contents/' + $data}">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="media" data-bind="with:SavedImage, visible:SavedImage">
+                            <img data-bind="attr:{src:'/static/book_contents/' + $data}" />
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
-
         </div>
     </section>
 </section>
@@ -83,15 +84,16 @@
                         </div>
                     </div>
 
-                    <div class="custom-file"  data-bind="visible:SavedImage() == null">
+                    <div class="custom-file" data-bind="visible:SavedImage() == null">
                         <input type="file" class="custom-file-input" id="imageUpload" lang="it" accept="image/*" capture="capture" data-bind="event:{ change: function() { NewImage($element.files[0]) } }">
                         <label class="custom-file-label" for="imageUpload" data-browse="Scelgi">Carica foto</label>
                     </div>
+
+                    <div class="buttons">
+                        <button class="btn btn-primary" data-bind="click:checkUpdateBookEntry">Posta</button>
+                        <button class="btn btn-primary" data-bind="click:startDeleteProcess">Elimina</button>
+                    </div>
                 </div>
-            </div>
-            <div class="add-button">
-                <button class="btn btn-primary" data-bind="click:checkUpdateBookEntry">Salva</button>
-                <button class="btn btn-primary" data-bind="click:startDeleteProcess">Elimina</button>
             </div>
         </form>
     </div>
