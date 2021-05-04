@@ -8,10 +8,12 @@
     </div>
     <div class="spinner-caption">Operazione in corso</div>
 </div>
-<section data-bind="with:Book, visible:!IsEditMode()" class="container">   
+<section data-bind="with:Book, visible:!IsEditMode()" class="container">
+    <button class="btn btn-primary add-button" data-bind="click:$root.addEntry.bind($root)"><i class="icofont-ui-edit"></i></button>
     <section class="row">
-        <div class="col-12 add-button">
-            <button class="btn btn-primary" data-bind="click:$root.addEntry.bind($root)"><i class="icofont-ui-edit"></i></button>
+        <div class="col-12 event-title">
+            <h1>Gabrielle's Graduation</h1>
+            <h2>The first of many achievements</h2>
         </div>
     </section>
     <section class="row">

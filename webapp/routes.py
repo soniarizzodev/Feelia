@@ -22,7 +22,7 @@ from webapp.const import ERROR_MISSING_PARAMS
 def login_page():
     """Login Page"""
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('event'))
 
     return render_template(
         'login.html',
@@ -79,7 +79,7 @@ def about():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('event'))
 
     data = request.form
     
@@ -88,7 +88,7 @@ def login():
 
     if users_manager.check():
         login_user(user, True)
-        return redirect(url_for('home'))
+        return redirect(url_for('event'))
     else:
         return redirect(url_for('login_page', failed = True))
 

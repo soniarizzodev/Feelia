@@ -88,6 +88,19 @@ header h4{
 
 }
 
+.event-title{
+    padding-bottom:calc(var(--general-padding) * 2);
+}
+
+.event-title h1,
+.event-title h2{
+    text-align:center;
+}
+
+.event-title h2{
+    font-size:1rem;
+}
+
 .entries-container {
     column-count: 1;
     column-gap: 1em;
@@ -133,7 +146,7 @@ header h4{
     text-align: right;
 }
 
-.add-button .btn {
+.add-button.btn {
     padding: 0;
     height: 60px;
     width: 60px;
