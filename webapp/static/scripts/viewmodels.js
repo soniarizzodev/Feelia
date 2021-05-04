@@ -36,9 +36,9 @@ App.prototype.addEntry = function () {
     let _self = this;
 
     _self.CurrentEntry(new BookEntryViewModel({ is_new : true }));
-    _self.IsEditMode(true);
+    _self.showAddModal();
     bsCustomFileInput.init('.custom-file-input');
-    history.pushState({ page: 'addEntry' }, '', 'addEntry');
+    //history.pushState({ page: 'addEntry' }, '', 'addEntry');
 };
 
 App.prototype.getEntryById = function (entry_id) {
@@ -76,6 +76,10 @@ App.prototype.showOutcomeModal = function () {
 
 App.prototype.hideAllModals = function () {
     $('.modal').modal('hide');
+};
+
+App.prototype.showAddModal = function () {
+    $('#addModal').modal('show');
 };
 
 function BookViewModel(model) {
@@ -291,13 +295,14 @@ BookEntryViewModel.prototype.startEditProcess = function () {
 
     app.CurrentEntry(_self);
 
-    app.IsEditMode(true);
+    //app.IsEditMode(true);
 
     bsCustomFileInput.init('.custom-file-input');
+    app.showAddModal();
 
-    let url = 'editEntry?id=' + app.CurrentEntry().Id();
+    //let url = 'editEntry?id=' + app.CurrentEntry().Id();
 
-    history.pushState({ page: 'editEntry' }, '', url);
+    //history.pushState({ page: 'editEntry' }, '', url);
 };
 
 BookEntryViewModel.prototype.checkUpdateBookEntry = function () {

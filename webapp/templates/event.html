@@ -207,6 +207,71 @@
     </div>
 </div>
 
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" data-bind="with:CurrentEntry">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    <div class="row edit">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="author">Autore</label>
+                                <input type="text" class="form-control" id="author" aria-describedby="author" data-bind="value:Author">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message">Messaggio</label>
+                                <textarea class="form-control" id="message" rows="10" data-bind="value:Message"></textarea>
+                            </div>
+
+                            <h5>Contenuti multimediali</h5>
+                            <div class="media row" data-bind="with:SavedVideo, visible:SavedVideo">
+                                <div class="col-10">
+                                    <video controls>
+                                        <source data-bind="attr:{src:'/static/book_contents/' + $data}">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                                <div class="col-2 no-padding">
+                                    <button class="btn icon-button delete-button" data-bind="click:$parent.DeleteVideo.bind($parent)"><i class="icofont-ui-delete"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="custom-file" data-bind="visible:SavedVideo() == null">
+                                <input type="file" class="custom-file-input" id="videoUpload" lang="it" accept="video/*" capture="capture" data-bind="event:{ change: function() { NewVideo($element.files[0]) } }">
+                                <label class="custom-file-label" for="videoUpload" data-browse="Scelgi">Carica video</label>
+                            </div>
+
+                            <div class="media row" data-bind="with:SavedImage, visible:SavedImage">
+                                <div class="col-10">
+                                    <img data-bind="attr:{src:'/static/book_contents/' + $data}" />
+                                </div>
+                                <div class="col-2 no-padding">
+                                    <button class="btn icon-button delete-button" data-bind="click:$parent.DeleteImage.bind($parent)"><i class="icofont-ui-delete"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="custom-file" data-bind="visible:SavedImage() == null">
+                                <input type="file" class="custom-file-input" id="imageUpload" lang="it" accept="image/*" capture="capture" data-bind="event:{ change: function() { NewImage($element.files[0]) } }">
+                                <label class="custom-file-label" for="imageUpload" data-browse="Scelgi">Carica foto</label>
+                            </div>
+
+                            <div class="buttons">
+                                <button class="btn btn-primary" data-bind="click:checkUpdateBookEntry">Posta</button>
+                                <button class="btn btn-primary" data-bind="click:startDeleteProcess">Elimina</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bind="click:checkUpdateBookEntry">Posta</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bind="click:startDeleteProcess">Elimina</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 {% block scripts %}
 {{super()}}
