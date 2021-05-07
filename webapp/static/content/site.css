@@ -18,6 +18,7 @@ body {
     font-size: 16pt;
     background-color: #4158D0;
     background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+    background-attachment: fixed;
 }
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -98,7 +99,7 @@ header h4{
 }
 
 .event-title h2{
-    font-size:1rem;
+    font-size:1.2rem;
 }
 
 .entries-container {
@@ -155,24 +156,6 @@ header h4{
     bottom: var(--general-margin);
     right: var(--general-margin);
     z-index:9;
-}
-
-.edit-container{
-    display:flex;
-    flex-direction:column;
-    justify-content:space-evenly;
-    align-items:center;
-    padding-top:var(--edit-container-padding);
-}
-
-.edit{
-    width:100%;
-    max-width:700px;
-    background-color:white;
-    padding-top:var(--general-padding);
-    padding-bottom:var(--general-padding);
-    margin:0;
-    border-radius:5px;
 }
 
 .key{
@@ -331,6 +314,10 @@ footer{
   display:flex;
   flex-direction:column;
   justify-content:center;
+}
+
+.with-padding{
+    padding:var(--general-padding);
 }
 
 footer p{

@@ -9,6 +9,7 @@ function App() {
     this.Processing = ko.observable(false);
     this.CurrentEntry = ko.observable();
     this.Outcome = ko.observable(new OutcomeViewModel());
+    this.EditActionLabel = ko.observable('Post');
 }
 
 App.prototype.getBook = function () {
@@ -35,10 +36,10 @@ App.prototype.getBook = function () {
 App.prototype.addEntry = function () {
     let _self = this;
 
-    _self.CurrentEntry(new BookEntryViewModel({ is_new : true }));
+    _self.CurrentEntry(new BookEntryViewModel({ is_new: true }));
+    _self.EditActionLabel('Post');
     _self.showAddModal();
     bsCustomFileInput.init('.custom-file-input');
-    //history.pushState({ page: 'addEntry' }, '', 'addEntry');
 };
 
 App.prototype.getEntryById = function (entry_id) {
@@ -294,15 +295,11 @@ BookEntryViewModel.prototype.startEditProcess = function () {
     let _self = this;
 
     app.CurrentEntry(_self);
-
-    //app.IsEditMode(true);
+    app.EditActionLabel('Save');
 
     bsCustomFileInput.init('.custom-file-input');
     app.showAddModal();
 
-    //let url = 'editEntry?id=' + app.CurrentEntry().Id();
-
-    //history.pushState({ page: 'editEntry' }, '', url);
 };
 
 BookEntryViewModel.prototype.checkUpdateBookEntry = function () {

@@ -100,32 +100,6 @@
         </form>
     </div>
 </section>
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document" data-bind="with:CurrentEntry">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Conferma inserendo il codice di modifica</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="edit_key_edit">Codice di modifica</label>
-                            <input class="form-control" id="edit_key_edit" data-bind="value:EditKey">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                <button type="button" class="btn btn-primary" data-bind="click:confirmUpdateBookEntry">Conferma</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document" data-bind="with:CurrentEntry">
@@ -159,37 +133,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="keyModal" tabindex="-1" role="dialog" aria-labelledby="keyModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document" data-bind="with:CurrentEntry">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Codice di modifica</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12">
-                        Conserva questo codice se vuoi avere la possibilit&agrave; di modificare o eliminare il tuo messaggio in seguito senza dover contattare Sonia :)
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="key">
-                            <p class="key" data-bind="text:EditKey"></p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bind="click:$root.navToHome">Chiudi</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="modal fade" id="outcomeModal" tabindex="-1" role="dialog" aria-labelledby="outcomeModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document" data-bind="with:Outcome">
         <div class="modal-content">            
@@ -208,11 +151,11 @@
 </div>
 
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document" data-bind="with:CurrentEntry">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" data-bind="with:CurrentEntry">
         <div class="modal-content">
-            <div class="modal-body">
+            <div class="modal-body with-padding">
                 <form>
-                    <div class="row edit">
+                    <div class="row">
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="author">Autore</label>
@@ -255,18 +198,14 @@
                                 <input type="file" class="custom-file-input" id="imageUpload" lang="it" accept="image/*" capture="capture" data-bind="event:{ change: function() { NewImage($element.files[0]) } }">
                                 <label class="custom-file-label" for="imageUpload" data-browse="Scelgi">Carica foto</label>
                             </div>
-
-                            <div class="buttons">
-                                <button class="btn btn-primary" data-bind="click:checkUpdateBookEntry">Posta</button>
-                                <button class="btn btn-primary" data-bind="click:startDeleteProcess">Elimina</button>
-                            </div>
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bind="click:checkUpdateBookEntry">Posta</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bind="click:startDeleteProcess">Elimina</button>
+            <div class="modal-footer  with-padding">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="click:checkUpdateBookEntry, text: $root.EditActionLabel"></button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" data-bind="visible: $root.EditActionLabel() === 'Save', click:startDeleteProcess">Delete</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bind="click:startDeleteProcess">Cancel</button>
             </div>
         </div>
     </div>
