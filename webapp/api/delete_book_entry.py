@@ -3,9 +3,9 @@ import os
 
 from webapp.api.Response import Response
 
-def delete_book_entry(book_entry_id, edit_key):
+def delete_book_entry(book_entry_id):
 
-    response = Response(True, 'Messaggio cancellato! Clicca su Chiudi per tornare ai messaggi.')
+    response = Response(True, 'Message deleted')
 
     folder_path = 'webapp/static/book_contents'
     path = f'{folder_path}/book.json'
@@ -22,9 +22,6 @@ def delete_book_entry(book_entry_id, edit_key):
         matching_entry = next((entry for entry in book_data['book_entries'] if entry['id'] == book_entry_id), None)
 
         if matching_entry is not None:
-            # Stop execution and return exception if the edit key doesn't match
-            if edit_key != matching_entry['edit_key']:
-                raise Exception('Il codice di modifica non corrisponde')
 
             book_data['book_entries'].remove(matching_entry)
 

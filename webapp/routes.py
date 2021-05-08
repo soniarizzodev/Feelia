@@ -120,8 +120,8 @@ def deletebookentry():
     """Deletes a book entry"""
     data = request.get_json(force=True)
 
-    if (data is not None) and ('book_entry_id' in data) and ('edit_key' in data):
-        return delete_book_entry(data['book_entry_id'], data['edit_key'])
+    if (data is not None) and ('book_entry_id' in data):
+        return delete_book_entry(data['book_entry_id'])
     else:
         response = Response(False, ERROR_MISSING_PARAMS)
         return response.compose()

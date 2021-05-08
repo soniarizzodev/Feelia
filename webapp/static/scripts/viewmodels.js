@@ -8,7 +8,7 @@ function App() {
     this.IsEditMode = ko.observable(false);
     this.Processing = ko.observable(false);
     this.CurrentEntry = ko.observable();
-    this.Outcome = ko.observable(new OutcomeViewModel());
+    this.Outcome = ko.observable(new OutcomeViewModel({ action: _self.hideAllModals }));
     this.EditActionLabel = ko.observable('Post');
 }
 
@@ -51,11 +51,6 @@ App.prototype.getEntryById = function (entry_id) {
         return entry[0];
     else
         return new BookEntryViewModel();
-};
-
-App.prototype.navToHome = function () {
-    window.location.href = host;
-    return true;
 };
 
 App.prototype.showDeleteModal = function () {
@@ -126,7 +121,6 @@ function BookEntryViewModel(model) {
     this.SavedImage = ko.observable();
     this.NewVideo = ko.observable();
     this.NewImage = ko.observable();
-    this.EditKey = ko.observable('');
     this.IsNew = ko.observable(false);
 
     if (model)
@@ -162,7 +156,6 @@ BookEntryViewModel.prototype.ToModel = function () {
         id: _self.Id(),
         author: _self.Author(),
         message: _self.Message(),
-        edit_key: _self.EditKey(),
         video_path: _self.SavedVideo() ? _self.SavedVideo() : '',
         image_path: _self.SavedImage() ? _self.SavedImage() : ''
     };
@@ -208,8 +201,7 @@ BookEntryViewModel.prototype.updateBookEntry = function () {
                 return response.json();
             else {
                 app.Processing(false);
-                app.Outcome().Message("Qualcosa non ha funzionato :(");
-                app.Outcome().Action(app.hideAllModals);
+                app.Outcome().Message("Sorry, something didn't work :(");
                 app.showOutcomeModal();
             }
 
@@ -220,19 +212,17 @@ BookEntryViewModel.prototype.updateBookEntry = function () {
             if (response.status === false) {
                 console.log(response.message);
                 app.Outcome().Message(response.message);
-                app.Outcome().Action(app.hideAllModals);
                 app.showOutcomeModal();
             }
             else
                 if (response.data.is_new) {
-                    _self.EditKey(response.data.edit_key);
                     _self.Id(response.data.id);
-                    app.showKeyModal();
+                    app.Outcome().Message(response.message);
+                    app.showOutcomeModal();
                     app.Book().BookEntries.push(_self);
                 }
                 else {
                     app.Outcome().Message(response.message);
-                    app.Outcome().Action(app.navToHome);
                     app.showOutcomeModal();
                 }
         });
@@ -245,8 +235,7 @@ BookEntryViewModel.prototype.deleteBookEntry = function () {
     app.Processing(true);
 
     let data = {
-        book_entry_id: _self.Id(),
-        edit_key: _self.EditKey()
+        book_entry_id: _self.Id()
     };
 
     fetch(host + '/deletebookentry',
@@ -259,8 +248,7 @@ BookEntryViewModel.prototype.deleteBookEntry = function () {
                 return response.json();
             else {
                 app.Processing(false);
-                app.Outcome().Message("Qualcosa non ha funzionato :(");
-                app.Outcome().Action(app.hideAllModals);
+                app.Outcome().Message("Sorry, something didn't work :(");
                 app.showOutcomeModal();
             }
 
@@ -270,14 +258,12 @@ BookEntryViewModel.prototype.deleteBookEntry = function () {
             if (response.status === false) {
                 console.log(response.message);
                 app.Outcome().Message(response.message);
-                app.Outcome().Action(app.hideAllModals);
                 app.showOutcomeModal();
             }
                 
             else {
                 app.Book().BookEntries.remove(_self);
                 app.Outcome().Message(response.message);
-                app.Outcome().Action(app.navToHome);
                 app.showOutcomeModal();
             }
         });
@@ -287,7 +273,7 @@ BookEntryViewModel.prototype.startDeleteProcess = function () {
     let _self = this;
 
     app.CurrentEntry(_self);
-
+    app.hideAllModals();
     app.showDeleteModal();
 };
 
@@ -300,21 +286,6 @@ BookEntryViewModel.prototype.startEditProcess = function () {
     bsCustomFileInput.init('.custom-file-input');
     app.showAddModal();
 
-};
-
-BookEntryViewModel.prototype.checkUpdateBookEntry = function () {
-    let _self = this;
-
-    if (_self.IsNew())
-        _self.updateBookEntry();
-    else
-        app.showEditModal();
-};
-
-BookEntryViewModel.prototype.confirmUpdateBookEntry = function () {
-    let _self = this;
-
-    _self.updateBookEntry();     
 };
 
 function OutcomeViewModel(model) {

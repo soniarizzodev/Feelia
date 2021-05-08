@@ -30,10 +30,7 @@ def update_book_entry(new_entry, media):
 
         existing_entry = next((entry for entry in book_data['book_entries'] if entry['id'] == book_entry['id']), None)
 
-        if existing_entry is not None:
-            # Stop execution and return exception if the edit key doesn't match
-            if book_entry['edit_key'] != existing_entry['edit_key']:
-                raise Exception('Il codice di modifica non corrisponde')
+        if existing_entry is not None:        
 
             existing_entry['author'] = book_entry['author']
             existing_entry['message'] = book_entry['message']
@@ -77,7 +74,6 @@ def update_book_entry(new_entry, media):
             
         if is_new:           
             response.add('id', book_entry['id'])
-            response.add('edit_key', book_entry['edit_key'])
 
         response.add('is_new', is_new)
         
